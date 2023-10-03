@@ -82,7 +82,7 @@ def readresults(persons, hospitals, fname='sample_result.txt'):
                 # Person
                 if w[0] == 'P':
                     if i==0 or i==len(route)-1:
-                        raise FormatSyntaxError('Specify hospitals at beginning or at end of route: %r' % line)
+                        raise FormatSyntaxError('Only specify hospitals at beginning or at end of route: %r' % line)
                     person_index = int(w[1:])
                     if person_index <= 0 or len(persons) < person_index:
                         raise FormatSyntaxError('Illegal person id: %d' % person_index)
@@ -114,9 +114,7 @@ def readresults(persons, hospitals, fname='sample_result.txt'):
         #     print()
         # print("___________________________\n") 
 
-    print()
-    print('Total score:', score)
-    print()
+    print('\nTotal score:', score, '\n')
     return res
 
 
