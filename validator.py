@@ -11,29 +11,37 @@ from Hospital import Hospital
 import matplotlib.pyplot as plt
 from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
+
+def read_hospital(line, hospitals, placed_hospitals):
+    print("\n" + line, end=" ")
+    hospital_no, hospital_coordinates = line.strip().replace('H', '').split(':')
+    hospital_no = int(hospital_no)
+    if hospital_no > len(hospitals):
+        raise ValidationError("Invalid Hospital Number - hospital number should be from 1 to " + str(len(hospitals)) + " line: "  + line)
+    elif hospital_no in placed_hospitals:
+        raise ValidationError("Hospital Number " + str(hospital_no) + " already placed with coordinates " + str(hospitals[hospital_no - 1].x) + "," + str(hospitals[hospital_no - 1].y) + " line: " + line)
+    placed_hospitals.add(hospital_no)
+    hospital_coordinates = hospital_coordinates.split(',')
+    try:
+        (x, y) = [int(coordinate) for coordinate in hospital_coordinates]
+    except ValueError:
+        raise ValidationError("Invalid Hospital Coordinates: " + line)
+    print("Hospital #{idx}: coordinates ({x},{y})".format(x=x, y=y, idx=hospital_no))
+    hospitals[hospital_no - 1].x = x
+    hospitals[hospital_no - 1].y = y
+    
 # read_results
 def readresults(persons, hospitals, fname='sample_result.txt'):
     print('Reading data:', fname)
     res = {}
     score = 0
-    hospital_index = 0
     with open(fname, 'r') as fil:
         data = fil.readlines()
-
+    placed_hospitals = set()
     for (i, line) in enumerate(data):
         # check for hospital coordinates
         if line.startswith('H'):
-            print("\n" + line, end=" ")
-            # read in hospital coordinates and set on hospital object
-            hospital_no = int(line.replace('H', '').split(':')[0])
-            hospital_coordinates = line.replace('H', '').split(':')[1].split(',')
-            (x, y) = [int(coordinates) for coordinates in hospital_coordinates]
-            print("Hospital #{idx}: coordinates ({x},{y})".format(x=x, y=y, idx=hospital_index + 1))
-            if not (x and y):
-                raise ValidationError("Hospital coordinates not set: line".format(line))
-            hospitals[hospital_index].x = x
-            hospitals[hospital_index].y = y
-            hospital_index += 1
+            read_hospital(line, hospitals, placed_hospitals)
             data[i] = '0 .' + line
         else:
             line = line.strip()
@@ -60,15 +68,15 @@ def readresults(persons, hospitals, fname='sample_result.txt'):
             for (i, w) in enumerate(route):
                 # Hospital 
                 if w[0] == 'H':
-                    hospital_index = int(w[1:])
-                    if hospital_index <= 0 or len(hospitals) < hospital_index:
-                        raise FormatSyntaxError('Illegal hospital id: %d' % hospital_index)
+                    hospital_no = int(w[1:])
+                    if hospital_no <= 0 or len(hospitals) < hospital_no:
+                        raise FormatSyntaxError('Illegal hospital id: %d' % hospital_no)
                     if i!=0 and i!=len(route)-1:
                         raise FormatSyntaxError('Specify hospitals only at beginning or at end of route: %r' % line)
                     if i == 0:
-                        hos = hospitals[hospital_index - 1]
+                        hos = hospitals[hospital_no - 1]
                     else:
-                        end_hos = hospitals[hospital_index - 1]
+                        end_hos = hospitals[hospital_no - 1]
                     continue
 
                 # Person
@@ -110,25 +118,6 @@ def readresults(persons, hospitals, fname='sample_result.txt'):
     print('Total score:', score)
     print()
     return res
-
-
-def process_list(hosp, row):
-    global hospitals
-    x, y = hospitals.iloc[hosp-1]["x"], hospitals.iloc[hosp-1]["y"]
-    values = [(x, y)] + row
-
-    temp = [values[0]]
-    for i in range(len(values)-1):
-        temp.append((values[i][0], values[i+1][1]))
-        temp.append(values[i+1])
-    return temp
-
-
-def prettify(self):
-    try:
-        return {self.pid: (self.x, self.y, self.st)}
-    except AttributeError:
-        return {self.hid: (self.x, self.y)}
 
 
 def my_solution(pers, hosps):
