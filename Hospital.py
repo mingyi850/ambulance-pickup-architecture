@@ -10,7 +10,6 @@ class Hospital:
         self.x = x
         self.y = y
         # amb_time array represents the time at which each ambulance ended its last tour.
-        self.num_amb = num_amb
         self.amb_time = [0] * num_amb
         return
 
@@ -21,7 +20,7 @@ class Hospital:
         return {self.hid: (self.x, self.y)}
 
     def rescue(self, pers, end_hospital, start_time):
-        if self.num_amb == 0:
+        if len(self.amb_time) == 0:
             raise IllegalPlanError('No ambulance left at the hospital %s.' % self)
         else:
             self.amb_time.sort()
@@ -51,9 +50,7 @@ class Hospital:
             break
 
         #Update hosppitals
-        self.num_amb -= 1
         self.amb_time.pop(index)
-        end_hospital.num_amb += 1
         end_hospital.amb_time.append(rescue_end_time)
 
         
