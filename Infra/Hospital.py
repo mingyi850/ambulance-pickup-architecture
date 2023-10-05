@@ -1,4 +1,4 @@
-from exceptions import IllegalPlanError
+from Infra.exceptions import IllegalPlanError
 
 def take_time(a, b):
     return abs(a.x - b.x) + abs(a.y - b.y)

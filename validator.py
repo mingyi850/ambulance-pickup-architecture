@@ -4,9 +4,9 @@ import re
 import pandas as pd
 import sys
 from utils import read_data
-from exceptions import IllegalPlanError, FormatSyntaxError, ValidationError
-from Person import Person
-from Hospital import Hospital
+from Infra.exceptions import IllegalPlanError, FormatSyntaxError, ValidationError
+from Infra.Person import Person
+from Infra.Hospital import Hospital
 
 import matplotlib.pyplot as plt
 from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
@@ -31,7 +31,7 @@ def read_hospital(line, hospitals, placed_hospitals):
     hospitals[hospital_no - 1].y = y
     
 # read_results
-def readresults(persons, hospitals, fname='sample_result.txt'):
+def readresults(persons, hospitals, fname='Outputs/sample_result.txt'):
     print('Reading data:', fname)
     res = {}
     score = 0
@@ -140,7 +140,7 @@ def my_solution(pers, hosps):
 # Main
 if __name__ == "__main__":
     input_file = "input_data.txt"
-    result_file = "sample_result.txt" #Change here for custom validation of your solution
+    result_file = "Test/sample_result.txt" #Change here for custom validation of your solution
     if len(sys.argv) > 1:
         input_file = sys.argv[1]
     if len(sys.argv) > 2:

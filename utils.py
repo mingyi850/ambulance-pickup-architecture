@@ -1,7 +1,6 @@
-from Person import Person
-from Hospital import Hospital
+from Infra.Person import Person
+from Infra.Hospital import Hospital
 
-PID = 0
 # read_data
 def read_data(fname="data.txt", print_input_file=False):
     persons = []

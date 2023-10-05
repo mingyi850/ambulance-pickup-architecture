@@ -12,7 +12,7 @@ def solution():
         patients = ["P" + str(patient + z) for z in range(4)] 
         patient += 4
         patient_string = " ".join(patients)
-        line = hospital + " " + patient_string + " " + hospital
+        line = "0 " + hospital + " " + patient_string + " " + hospital
         lines.append(line)
     #print to output file
     return "\n".join(lines)
