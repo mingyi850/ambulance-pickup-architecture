@@ -140,7 +140,7 @@ def my_solution(pers, hosps):
 # Main
 if __name__ == "__main__":
     input_file = "input_data.txt"
-    result_file = "sample_result.txt"
+    result_file = "sample_result.txt" #Change here for custom validation of your solution
     if len(sys.argv) > 1:
         input_file = sys.argv[1]
     if len(sys.argv) > 2:
