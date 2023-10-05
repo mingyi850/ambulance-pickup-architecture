@@ -7,10 +7,11 @@ def solution():
         lines.append("H" + str(i) + ":" + str(i * 10) + "," + str(i * 10))
     lines.append("")
     patient = 1
-    for i in range(1, 10):
+    for i in range(1, 40):
+        pickups = 1
         hospital = "H" + str((i % 5) + 1)
-        patients = ["P" + str(patient + z) for z in range(4)] 
-        patient += 4
+        patients = ["P" + str(patient + z) for z in range(pickups)] 
+        patient += pickups
         patient_string = " ".join(patients)
         line = "0 " + hospital + " " + patient_string + " " + hospital
         lines.append(line)

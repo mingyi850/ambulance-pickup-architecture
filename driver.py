@@ -20,7 +20,7 @@ for fname in files:
 	t = end - start
 	if t.seconds >= 120:
 		print("\n\tCode took too long to run. No points awarded.")
-	os.system("python3 validator.py input_data.txt " + out_fname)
+	os.system("python3 validator.py input_data.txt " + out_fname + " > Results/" + team_name + "_results.txt") 
 	
 
 
