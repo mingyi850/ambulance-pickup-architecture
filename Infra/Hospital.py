@@ -46,7 +46,7 @@ class Hospital:
         for (index, t0) in enumerate(self.amb_time): #why not just take first one since it's sorted.
             if (t0 > start_time):
                 continue
-            rescued_persons = list(filter(lambda p: p.expires >= rescue_end_time and p.rescued is False, pers))
+            rescued_persons = list(set(filter(lambda p: p.expires >= rescue_end_time and p.rescued is False, pers)))
             break
 
         #Update hosppitals
